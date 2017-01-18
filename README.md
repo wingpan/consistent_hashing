@@ -5,7 +5,7 @@
 
 	Consistent hashing is a special kind of hashing such that when a hash table is resized, only { K/n} K/n keys need to be remapped on average, where  K is the number of keys, and { n} n is the number of slots. In contrast, in most traditional hash tables, a change in the number of array slots causes nearly all keys to be remapped because the mapping between the keys and the slots is defined by a modular operation.
 	
-一致性哈希算法是一种特殊的哈希算法，当哈希表槽位数（大小）的变化时，平均只会引起 {K/n}个关键字需要重拍，其中 K 是关键字的数量，n是哈希表的大小。而其他哈希算法因为涉及到哈希表取模（ hash(o) mod n）算法，如果增加或减少哈希表的大小（槽位），几乎所有关键字都需要重新映射。
+一致性哈希算法是一种特殊的哈希算法，当哈希表槽位的数量（大小）发生变化时，平均只会引起 {K/n}个关键字需要重新映射，其中 K 是关键字的数量，n是哈希表的大小。而其他哈希算法因为涉及到哈希表槽位数量取模（ hash(o) mod n）运算，如果增加或减少哈希表的大小（槽位），几乎所有关键字都需要重新映射。
 
 
 一致性哈希算法经常运用在分布式缓存系统中，映射数据到对应的缓存主机中。
@@ -37,11 +37,11 @@
 
 
 ######平衡
-假设以 node 的实际hash值作为其在环中的位置，由于这些值并不会均匀的落在环上，导致这些node所“管辖”的范围并不平均，最终导致数据分布的不平均，从上图可以看出 B 节点的范围最大，而 A 节点的范围最小。
+假设以 node 的实际hash值作为其在环中的位置，由于这些值并不会均匀的落在环上，导致这些 node 所“管辖”的范围并不平均，最终结果是数据分布的不平均，从图 1 可以看出 B 节点的范围最大，而 A 节点的范围最小。
 
-解决这种不平衡的方式是引入虚节点 (Partition)：一个物理节点（node）会分到非常多个虚节点（Partition），实际缓存对象会被映射到虚节点上，再根据虚节点和物理节点之间的映射，最后把对象缓存到物理节点上。
+解决这种不平衡的方式是引入虚节点 (Partition)：一个物理节点（node）会分到非常多的虚节点（Partition），实际缓存对象会被映射到虚节点上，然后系统根据虚节点找到物理节点，最后把对象缓存到物理节点上。
 
-这样由非常多的虚节点分布，保证物理节点的“管辖”范围的均匀分布。如果物理节点中也存在权重，可以通过给高权重的节点分配更多的虚节点来实现。
+这样由虚节点的大规模分布，来保证物理节点的“管辖”范围的均匀分布。如果不同物理节点存在不同权重，可以通过给高权重的节点分配更多的虚节点来达到目的。
 
 ![My cool picture](http://upload-images.jianshu.io/upload_images/4417484-82d36370042ca0cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240).
 
